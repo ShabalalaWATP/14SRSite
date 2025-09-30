@@ -1,0 +1,6 @@
+# OS/user junk
+.DS_Store
+Thumbs.db
+
+# Windows ADS export artifacts
+*:[Zz]one.Identifier
