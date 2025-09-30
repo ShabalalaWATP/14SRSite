@@ -1,0 +1,997 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Engineering Support Troop (EST) | 14th Signal Regiment (EW)</title>
+    <style>
+        :root {
+            --bg-primary: #0c111b;
+            --bg-secondary: #151c29;
+            --bg-accent: linear-gradient(135deg, #1e2a44, #273a63);
+            --text-primary: #f5f5f7;
+            --text-secondary: #b4c3ff;
+            --accent: #4f7cff;
+            --accent-soft: rgba(79, 124, 255, 0.25);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --shadow: 0 24px 48px rgba(15, 23, 42, 0.45);
+            font-size: 16px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: "Segoe UI", "Roboto", "Helvetica Neue", Arial, sans-serif;
+            background: radial-gradient(circle at top, rgba(79, 124, 255, 0.12), transparent 60%), var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        img {
+            display: block;
+            max-width: 100%;
+        }
+
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(18px);
+            background: rgba(12, 17, 27, 0.82);
+            border-bottom: 1px solid var(--card-border);
+        }
+
+        .header-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1.2rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+        }
+
+        .header-logo {
+            height: 60px;
+            width: auto;
+            flex-shrink: 0;
+        }
+
+        .tagline {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            flex: 1;
+            text-align: center;
+            max-width: 540px;
+            margin: 0 1rem;
+            white-space: nowrap;
+        }
+
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2.5rem 2rem 4rem;
+            display: flex;
+            flex-direction: column;
+            gap: 3.5rem;
+        }
+
+        .hero {
+            background: var(--bg-accent);
+            padding: 3rem;
+            border-radius: 24px;
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at 70% 20%, rgba(79, 124, 255, 0.35), transparent 60%);
+            opacity: 0.7;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 700px;
+        }
+
+        .hero h1 {
+            font-size: 2.75rem;
+            line-height: 1.2;
+            margin-bottom: 1rem;
+        }
+
+        .hero p {
+            color: rgba(223, 228, 255, 0.85);
+            margin-bottom: 2rem;
+            font-size: 1.05rem;
+        }
+
+        .hero-crest {
+            position: absolute;
+            right: 0.4rem;
+            bottom: 0.8rem;
+            width: clamp(240px, 34vw, 360px);
+            opacity: 0.32;
+            filter: drop-shadow(0 32px 48px rgba(79, 124, 255, 0.32)) saturate(1.1);
+            pointer-events: none;
+            mix-blend-mode: screen;
+            z-index: 0;
+            mask-image: radial-gradient(circle at 55% 55%, rgba(0, 0, 0, 0.96) 60%, rgba(0, 0, 0, 0) 100%);
+            -webkit-mask-image: radial-gradient(circle at 55% 55%, rgba(0, 0, 0, 0.96) 60%, rgba(0, 0, 0, 0) 100%);
+            mask-mode: alpha;
+            mask-repeat: no-repeat;
+            mask-size: 120%;
+            -webkit-mask-repeat: no-repeat;
+            -webkit-mask-size: 120%;
+            mask-position: center;
+            -webkit-mask-position: center;
+        }
+
+        .cta-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .button {
+            padding: 0.85rem 1.75rem;
+            border-radius: 999px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+
+        .button.primary {
+            background: var(--accent);
+            color: #fff;
+            box-shadow: 0 12px 24px rgba(79, 124, 255, 0.35);
+        }
+
+        .button.secondary {
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(15, 23, 42, 0.65);
+        }
+
+        .button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 16px 30px rgba(79, 124, 255, 0.4);
+        }
+
+        section {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        section h2 {
+            font-size: 2rem;
+            letter-spacing: 0.04em;
+            color: var(--text-secondary);
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--card-border);
+            border-radius: 18px;
+            padding: 1.5rem;
+            box-shadow: 0 18px 36px rgba(10, 14, 24, 0.35);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(79, 124, 255, 0.08), transparent 55%);
+            pointer-events: none;
+        }
+
+        .card strong {
+            display: block;
+            font-size: 1.05rem;
+            margin-bottom: 0.4rem;
+        }
+
+        .services-grid {
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+        }
+
+        .services-grid .card {
+            padding: 1.75rem;
+        }
+
+        .services-grid .card span {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.98rem;
+        }
+
+        .battle-calendar {
+            background: var(--bg-secondary);
+            border-radius: 22px;
+            border: 1px solid var(--card-border);
+            padding: 1.75rem;
+            box-shadow: 0 18px 36px rgba(10, 14, 24, 0.35);
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1rem;
+        }
+
+        .calendar-day {
+            background: rgba(12, 17, 27, 0.75);
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            display: flex;
+            flex-direction: column;
+            min-height: 210px;
+        }
+
+        .calendar-day header {
+            padding: 0.85rem 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: var(--text-secondary);
+        }
+
+        .calendar-day .day-abbrev {
+            font-size: 0.75rem;
+            color: rgba(255, 255, 255, 0.45);
+            letter-spacing: 0.12em;
+        }
+
+        .calendar-events {
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+            padding: 1rem;
+            flex: 1;
+        }
+
+        .calendar-event {
+            border-left: 3px solid rgba(79, 124, 255, 0.35);
+            background: rgba(79, 124, 255, 0.08);
+            border-radius: 12px;
+            padding: 0.65rem 0.85rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+
+        .calendar-event.event-open {
+            border-color: rgba(34, 197, 94, 0.85);
+            background: rgba(34, 197, 94, 0.18);
+        }
+
+        .calendar-event.event-internal {
+            border-color: rgba(59, 130, 246, 0.75);
+            background: rgba(59, 130, 246, 0.2);
+        }
+
+        .calendar-event.event-closed {
+            border-color: rgba(248, 113, 113, 0.85);
+            background: rgba(248, 113, 113, 0.22);
+        }
+
+        .event-time {
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .event-label {
+            font-size: 0.85rem;
+            color: rgba(223, 228, 255, 0.82);
+        }
+
+        /* Support guide */
+        .support-intro {
+            color: rgba(223, 228, 255, 0.85);
+            max-width: 860px;
+        }
+
+        .guide-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .step-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+        }
+
+        .step-list li strong {
+            color: var(--text-secondary);
+        }
+
+        .sla-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 0.85rem;
+        }
+
+        .sla-card {
+            border-left: 3px solid rgba(255, 255, 255, 0.18);
+            background: rgba(255, 255, 255, 0.06);
+            border-radius: 12px;
+            padding: 0.75rem 0.9rem;
+        }
+
+        .sla-card .sla-title {
+            font-weight: 700;
+            letter-spacing: 0.04em;
+        }
+
+        .sla-card .sla-target {
+            display: block;
+            color: rgba(223, 228, 255, 0.82);
+            font-size: 0.92rem;
+            margin-top: 0.25rem;
+        }
+
+        .sla-card.p1 { border-left-color: rgba(248, 113, 113, 0.9); background: rgba(248, 113, 113, 0.16); }
+        .sla-card.p2 { border-left-color: rgba(251, 146, 60, 0.9);  background: rgba(251, 146, 60, 0.16); }
+        .sla-card.p3 { border-left-color: rgba(59, 130, 246, 0.85); background: rgba(59, 130, 246, 0.16); }
+        .sla-card.p4 { border-left-color: rgba(148, 163, 184, 0.7);  background: rgba(148, 163, 184, 0.14); }
+
+        .contact-grid {
+            display: grid;
+            gap: 1.5rem;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        }
+
+        .contact-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--card-border);
+            border-radius: 18px;
+            padding: 1.75rem;
+            box-shadow: var(--shadow);
+        }
+
+        .contact-card h3 {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.6rem;
+        }
+
+        .contact-card a {
+            color: var(--accent);
+            font-weight: 600;
+            word-break: break-word;
+        }
+
+        .duty-tech {
+            position: relative;
+            background: var(--bg-secondary);
+            border-radius: 22px;
+            padding: 2rem;
+            border: 1px solid var(--card-border);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+
+        .duty-tech-header {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+        }
+
+        .duty-tech-header strong {
+            font-size: 1.3rem;
+            color: var(--text-secondary);
+        }
+
+        .duty-tech-slider {
+            margin-top: 1.5rem;
+            display: grid;
+            grid-template-columns: auto minmax(180px, 240px) 1fr auto;
+            gap: 1.25rem;
+            align-items: center;
+        }
+
+        .duty-tech-figure {
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.3);
+            aspect-ratio: 3 / 4;
+            max-height: 260px;
+        }
+
+        .duty-tech-figure img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .duty-tech-info {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        .duty-tech-info h3 {
+            font-size: 1.5rem;
+        }
+
+        .duty-tech-info p {
+            color: rgba(223, 228, 255, 0.85);
+        }
+
+        .slider-btn {
+            width: 48px;
+            height: 48px;
+            border-radius: 999px;
+            border: 1px solid rgba(79, 124, 255, 0.6);
+            background: rgba(79, 124, 255, 0.12);
+            color: var(--text-secondary);
+            font-size: 1.5rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: background 0.2s ease, transform 0.2s ease;
+        }
+
+        .slider-btn:hover {
+            background: rgba(79, 124, 255, 0.25);
+            transform: translateY(-1px);
+        }
+
+        .slider-btn:focus-visible {
+            outline: 2px solid var(--accent);
+            outline-offset: 3px;
+        }
+
+        .duty-tech-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            padding: 0.35rem 0.75rem;
+            border-radius: 999px;
+            background: rgba(79, 124, 255, 0.15);
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            font-weight: 600;
+            width: fit-content;
+        }
+
+        .duty-tech-status[data-state="Current Duty"] {
+            background: var(--accent);
+            color: #fff;
+        }
+
+        .ticker {
+            font-family: "JetBrains Mono", "Fira Code", monospace;
+            letter-spacing: 0.08em;
+            padding: 0.6rem 1rem;
+            border-radius: 12px;
+            background: rgba(79, 124, 255, 0.15);
+            width: fit-content;
+            border: 1px solid rgba(79, 124, 255, 0.35);
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 1.1rem;
+        }
+
+        .team-card {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            background: rgba(13, 19, 31, 0.85);
+            border-radius: 16px;
+            padding: 1.1rem;
+            border: 1px solid var(--card-border);
+            box-shadow: 0 12px 28px rgba(2, 6, 14, 0.4);
+        }
+
+        .team-card figure {
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            border-radius: 12px;
+            overflow: hidden;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .team-card figure img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .team-card .role {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+        }
+
+        .team-card h3 {
+            font-size: 1rem;
+            line-height: 1.35;
+        }
+
+        footer {
+            text-align: center;
+            padding: 3rem 0 1.5rem;
+            color: rgba(255, 255, 255, 0.45);
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 960px) {
+            .header-inner {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .tagline {
+                margin: 0.75rem 0 0;
+                white-space: normal;
+            }
+
+            .hero {
+                padding: 2.25rem;
+            }
+
+            .hero-crest {
+                right: 50%;
+                bottom: 0.5rem;
+                transform: translateX(50%);
+                width: clamp(200px, 60vw, 300px);
+                opacity: 0.28;
+                mask-size: 140%;
+                -webkit-mask-size: 140%;
+            }
+
+            .duty-tech-slider {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .slider-btn {
+                justify-self: center;
+                width: 44px;
+                height: 44px;
+            }
+
+            .duty-tech-figure {
+                max-height: 280px;
+            }
+        }
+
+        @media (max-width: 640px) {
+            main {
+                padding: 2rem 1.5rem 3rem;
+            }
+
+            .header-logo {
+                height: 52px;
+            }
+
+            .hero h1 {
+                font-size: 2.15rem;
+            }
+
+            section h2 {
+                font-size: 1.55rem;
+            }
+
+            .button {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .tagline {
+                max-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-inner">
+            <img src="images/est-logo.jpg" alt="Engineering Support Troop crest" class="header-logo" loading="lazy">
+            <p class="tagline">Engineering Support Troop – powering resilient digital effect for 14 Sig Regt (EW).</p>
+            <img src="images/14SR.jpg" alt="14th Signal Regiment (EW) crest" class="header-logo" loading="lazy">
+        </div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="hero-content">
+                <h1>Engineering Support Troop (EST)</h1>
+                <p>EST sits under Support Squadron and provides mission-critical technical engineering assurance, cyber readiness, IT service management, digital infrastructure resilience, innovation expertise and trials and capability development for 14th Signal Regiment (EW). We innovate, secure and sustain the technology that powers Electronic Warfare and Signals Intelligence operations.</p>
+                <div class="cta-buttons">
+                    <a href="#" class="button primary">Ready to Collaborate / Request Support</a>
+                </div>
+            </div>
+            <img src="images/est-logo.jpg" alt="" class="hero-crest" aria-hidden="true" loading="lazy" decoding="async">
+        </section>
+
+        <section id="services">
+            <h2>Capabilities and Services</h2>
+            <div class="card-grid services-grid">
+                <div class="card"><strong>Innovation Management</strong><span>Driving concept development, rapid prototyping and digital transformation.</span></div>
+                <div class="card"><strong>Regimental IT Cyber Security Reporting</strong><span>Providing accurate and timely cyber reporting to maintain operational assurance.</span></div>
+                <div class="card"><strong>Regimental Cyber Security Inspections</strong><span>Inspecting and hardening regimental systems to MOD defensive cyber standards.</span></div>
+                <div class="card"><strong>Operations Block IT Management</strong><span>Delivering resilient networks and user support within the Ops Block.</span></div>
+                <div class="card"><strong>Regimental MODNET IT Management</strong><span>Maintaining MODNET availability, compliance and user enablement.</span></div>
+                <div class="card"><strong>Site CIS Infrastructure Management</strong><span>Overseeing fixed and deployable CIS infrastructure across the estate.</span></div>
+                <div class="card"><strong>Anti-Virus Update Disk Production</strong><span>Producing and distributing AV updates to safeguard regiment systems.</span></div>
+                <div class="card"><strong>3 Monthly OS Updates</strong><span>Scheduling and delivering quarterly OS upgrades across all IT systems.</span></div>
+                <div class="card"><strong>Sheepdip Data Transfer Capability</strong><span>Operating trusted data transfer pathways for mission information.</span></div>
+                <div class="card"><strong>COTS IT Asset Issue</strong><span>Issuing and managing commercial-off-the-shelf IT equipment.</span></div>
+                <div class="card"><strong>Workstation and Device Recovery</strong><span>Diagnosing and restoring regimental PCs, laptops and peripherals to maintain mission availability.</span></div>
+                <div class="card"><strong>Regimental SharePoint Stewardship</strong><span>Architecting secure SharePoint hubs, permissions and content governance across 14 Sig Regt (EW).</span></div>
+                <div class="card"><strong>Power Platform Solutions</strong><span>Designing, delivering and sustaining bespoke PowerApps to streamline unit workflows and approvals.</span></div>
+                <div class="card"><strong>Management of Cyber Exercise Participants</strong><span>Coordinating personnel and readiness for regiment cyber exercises.</span></div>
+                <div class="card"><strong>IT Update Trial Support</strong><span>Supporting brigade and regimental trials for new software releases.</span></div>
+                <div class="card"><strong>Cable Repair</strong><span>Restoring and certifying copper and fibre connectivity.</span></div>
+                <div class="card"><strong>Annual AI Awareness Week</strong><span>Hosting immersive briefs and demonstrations to build regiment-wide confidence in applying emerging AI capabilities.</span></div>
+                <div class="card"><strong>Annual Cyber Training Week</strong><span>Delivering intensive defensive cyber skills development and exercises for operators and commanders.</span></div>
+                <div class="card"><strong>Annual Innovation Hackathon</strong><span>Mobilising multi-discipline teams to prototype mission solutions against real-world electronic warfare challenges.</span></div>
+                <div class="card"><strong>Strategic Partner Liaison</strong><span>Maintaining collaborative pipelines with defence stakeholders such as DSTL, DAIC, L3Harris and BAE Systems to accelerate capability delivery.</span></div>
+            </div>
+        </section>
+
+        <section id="support">
+            <h2>How To Request Support</h2>
+            <p class="support-intro">Use the channels below and choose a priority so we can triage quickly. For urgent issues outside core hours, call the duty technician.</p>
+            <div class="guide-grid">
+                <div class="card">
+                    <strong>1. Choose Priority</strong>
+                    <ul class="step-list" style="margin-top: 0.6rem;">
+                        <li><strong>P1 – Critical:</strong> Major outage or mission‑stopping fault affecting multiple users/systems.</li>
+                        <li><strong>P2 – High:</strong> Significant degradation or single system/user blocking operational work.</li>
+                        <li><strong>P3 – Routine:</strong> Standard incident/request not blocking delivery.</li>
+                        <li><strong>P4 – Planned:</strong> Change, improvement or project work to be scheduled.</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <strong>2. Contact EST</strong>
+                    <p style="margin-top: 0.6rem;"><strong>Email:</strong> <a href="mailto:14SR-SptSqn-EngSp-GroupMailbox.mod.gov.uk">14SR-SptSqn-EngSp-GroupMailbox.mod.gov.uk</a></p>
+                    <p><strong>Phone:</strong> <a href="tel:+447446645422">+44 7446 645 422</a></p>
+                    <a href="#" class="button primary" style="width: fit-content; margin-top: 0.5rem;">Submit Support Request</a>
+                    <div style="margin-top: 0.9rem; display:flex; align-items:center; gap:0.5rem;">
+                        <span class="ticker">Out-of-hours: +44 7332 681234</span>
+                    </div>
+                    <p style="margin-top: 0.6rem; color: rgba(255,255,255,0.7); font-size: 0.9rem;">Core desk coverage typically aligns to published battle rhythm.</p>
+                </div>
+                <div class="card">
+                    <strong>3. Service Levels</strong>
+                    <div class="sla-grid" style="margin-top: 0.6rem;">
+                        <div class="sla-card p1">
+                            <span class="sla-title">P1 – Critical</span>
+                            <span class="sla-target">Target response: 15 min (core) / immediate triage (OOH)</span>
+                            <span class="sla-target">Target restore: within 4 hours</span>
+                        </div>
+                        <div class="sla-card p2">
+                            <span class="sla-title">P2 – High</span>
+                            <span class="sla-target">Target response: within 2 business hours</span>
+                            <span class="sla-target">Target restore: within 1 business day</span>
+                        </div>
+                        <div class="sla-card p3">
+                            <span class="sla-title">P3 – Routine</span>
+                            <span class="sla-target">Target response: next business day</span>
+                            <span class="sla-target">Target restore: within 5 business days</span>
+                        </div>
+                        <div class="sla-card p4">
+                            <span class="sla-title">P4 – Planned</span>
+                            <span class="sla-target">Scheduled with the requestor in the next change window</span>
+                        </div>
+                    </div>
+                    <p style="margin-top: 0.6rem; color: rgba(255,255,255,0.65); font-size: 0.9rem;">Targets are indicative; live operations, exercises or dependencies may adjust timelines.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="timetable">
+            <h2>Battle Rhythm</h2>
+            <div class="battle-calendar">
+                <div class="calendar-grid">
+                    <article class="calendar-day">
+                        <header>
+                            <span>Monday</span>
+                            <span class="day-abbrev">Mon</span>
+                        </header>
+                        <div class="calendar-events">
+                            <div class="calendar-event event-closed">
+                                <span class="event-time">0800 – 1000</span>
+                                <span class="event-label">PT</span>
+                            </div>
+                            <div class="calendar-event event-internal">
+                                <span class="event-time">1000 – 1030</span>
+                                <span class="event-label">EST Meeting (Closed)</span>
+                            </div>
+                            <div class="calendar-event event-open">
+                                <span class="event-time">1030 – 1230</span>
+                                <span class="event-label">Open</span>
+                            </div>
+                            <div class="calendar-event event-closed">
+                                <span class="event-time">1230 – 1330</span>
+                                <span class="event-label">Lunch</span>
+                            </div>
+                            <div class="calendar-event event-open">
+                                <span class="event-time">1330 – 1700</span>
+                                <span class="event-label">Open</span>
+                            </div>
+                        </div>
+                    </article>
+                    <article class="calendar-day">
+                        <header>
+                            <span>Tuesday</span>
+                            <span class="day-abbrev">Tue</span>
+                        </header>
+                        <div class="calendar-events">
+                            <div class="calendar-event event-closed">
+                                <span class="event-time">0800 – 1000</span>
+                                <span class="event-label">PT</span>
+                            </div>
+                            <div class="calendar-event event-open">
+                                <span class="event-time">1000 – 1230</span>
+                                <span class="event-label">Open</span>
+                            </div>
+                            <div class="calendar-event event-closed">
+                                <span class="event-time">1230 – 1330</span>
+                                <span class="event-label">Lunch</span>
+                            </div>
+                            <div class="calendar-event event-open">
+                                <span class="event-time">1330 – 1700</span>
+                                <span class="event-label">Open</span>
+                            </div>
+                        </div>
+                    </article>
+                    <article class="calendar-day">
+                        <header>
+                            <span>Wednesday</span>
+                            <span class="day-abbrev">Wed</span>
+                        </header>
+                        <div class="calendar-events">
+                            <div class="calendar-event event-internal">
+                                <span class="event-time">0800 – 1230</span>
+                                <span class="event-label">EST Training</span>
+                            </div>
+                            <div class="calendar-event event-closed">
+                                <span class="event-time">1230 – 1330</span>
+                                <span class="event-label">Lunch</span>
+                            </div>
+                            <div class="calendar-event event-closed">
+                                <span class="event-time">1330 – 1700</span>
+                                <span class="event-label">Regimental Sports</span>
+                            </div>
+                        </div>
+                    </article>
+                    <article class="calendar-day">
+                        <header>
+                            <span>Thursday</span>
+                            <span class="day-abbrev">Thu</span>
+                        </header>
+                        <div class="calendar-events">
+                            <div class="calendar-event event-closed">
+                                <span class="event-time">0800 – 1000</span>
+                                <span class="event-label">PT</span>
+                            </div>
+                            <div class="calendar-event event-open">
+                                <span class="event-time">1000 – 1230</span>
+                                <span class="event-label">Open</span>
+                            </div>
+                            <div class="calendar-event event-closed">
+                                <span class="event-time">1230 – 1330</span>
+                                <span class="event-label">Lunch</span>
+                            </div>
+                            <div class="calendar-event event-open">
+                                <span class="event-time">1330 – 1500</span>
+                                <span class="event-label">Open</span>
+                            </div>
+                            <div class="calendar-event event-internal">
+                                <span class="event-time">1500 – 1700</span>
+                                <span class="event-label">Weekly Shut Down</span>
+                            </div>
+                        </div>
+                    </article>
+                    <article class="calendar-day">
+                        <header>
+                            <span>Friday</span>
+                            <span class="day-abbrev">Fri</span>
+                        </header>
+                        <div class="calendar-events">
+                            <div class="calendar-event event-closed">
+                                <span class="event-time">Closed</span>
+                                <span class="event-label">Use duty tech details for urgent out-of-hours support.</span>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact">
+            <h2>Connect With EST</h2>
+            <div class="contact-grid">
+                <div class="contact-card">
+                    <h3>Duty Desk</h3>
+                    <p>Primary enquiries, ticket requests and service coordination.</p>
+                    <p><strong>Location:</strong> Room 13, Zone B, Hangar 5, Cawdor Barracks, SA62 6NN</p>
+                    <p><strong>Email:</strong> <a href="mailto:14SR-SptSqn-EngSp-GroupMailbox.mod.gov.uk">14SR-SptSqn-EngSp-GroupMailbox.mod.gov.uk</a></p>
+                    <p><strong>Telephone:</strong> <a href="tel:+447446645422">+44 7446 645 422</a></p>
+                </div>
+                <div class="contact-card">
+                    <h3>Ready to Collaborate?</h3>
+                    <p>Need to trial new capability or request dedicated support? Share your requirement and we will align resource.</p>
+                    <a href="#" class="button primary" style="width: fit-content; margin-top: 0.5rem;">Ready to Collaborate / Request Support</a>
+                    <p style="margin-top: 1rem; color: rgba(255,255,255,0.7); font-size: 0.9rem;">This button can link to your Microsoft Form when ready.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="duty-tech" id="duty-tech">
+            <div class="duty-tech-header">
+                <strong>Duty Technician Roster</strong>
+                <div class="ticker">Out-of-hours: +44 7332 681234</div>
+            </div>
+            <div class="duty-tech-slider">
+                <button class="slider-btn prev" id="dutyPrev" aria-label="Show previous duty technician">&#9664;</button>
+                <figure class="duty-tech-figure">
+                    <img id="dutyTechImage" src="" alt="Duty Technician">
+                </figure>
+                <div class="duty-tech-info">
+                    <span class="duty-tech-status" id="dutyTechStatus" data-state="Current Duty">Current Duty</span>
+                    <h3 id="dutyTechName">Corporal Placeholder</h3>
+                    <p id="dutyTechRole">Duty Technician</p>
+                    <p><strong>Duty Window:</strong> <span id="dutyTechDates">--</span></p>
+                    <p style="color: var(--text-secondary);">The EST duty technician rotates weekly across the troop to ensure 24/7 resilience.</p>
+                </div>
+                <button class="slider-btn next" id="dutyNext" aria-label="Show next duty technician">&#9654;</button>
+            </div>
+        </section>
+
+        <section id="team">
+            <h2>Meet the Team</h2>
+            <div class="team-grid" id="teamGrid"></div>
+        </section>
+    </main>
+
+    <footer>
+        &copy; <span id="year"></span> Engineering Support Troop, 14th Signal Regiment (EW). Crafted for operational readiness.
+    </footer>
+
+    <script>
+        const headshotPool = Array.from({ length: 15 }, (_, idx) => `images/${idx + 1}.jpg`);
+
+        function shuffle(array) {
+            const arr = array.slice();
+            for (let i = arr.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [arr[i], arr[j]] = [arr[j], arr[i]];
+            }
+            return arr;
+        }
+
+        const shuffledHeadshots = shuffle(headshotPool);
+
+        const dutyRoster = [
+            { name: "Cpl Nacho Novo", role: "Troop IS Eng NCO", dates: "15 Sep – 21 Sep 2025", status: "Previous Duty", image: shuffledHeadshots[0] },
+            { name: "Cpl Peter Lovenkrands", role: "Troop IS Eng NCO", dates: "22 Sep – 28 Sep 2025", status: "Current Duty", image: shuffledHeadshots[1] },
+            { name: "Cpl Steven Naismith", role: "Troop Net Eng NCO", dates: "29 Sep – 5 Oct 2025", status: "Next Duty", image: shuffledHeadshots[2] }
+        ];
+
+        const troop = [
+            { role: "Regt TOT(IS)", name: "LE Captain David Weir" },
+            { role: "Regt FofS(IS)", name: "WO2 Barry Ferguson" },
+            { role: "Troop FofS(IS)", name: "SSgt Lee McCulloch" },
+            { role: "Troop IS Eng SNCO", name: "Sgt Nacho Novo" },
+            { role: "Troop IS Eng SNCO", name: "Sgt Allan McGregor" },
+            { role: "Troop IS Eng NCO", name: "Cpl Nacho Novo" },
+            { role: "Troop IS Eng NCO", name: "Cpl Peter Lovenkrands" },
+            { role: "Troop Net Eng NCO", name: "Cpl Steven Naismith" },
+            { role: "Troop IS Eng JNCO", name: "LCpl Kris Boyd" },
+            { role: "Troop IS Eng JNCO", name: "LCpl Daniel Cousin" },
+            { role: "Troop Net Eng JNCO", name: "LCpl Sasa Papac" },
+            { role: "Troop IS Eng Junior", name: "Sig Chris Burke" },
+            { role: "Troop IS Eng Junior", name: "Sig Leroy Jenkins" },
+            { role: "Troop IS Eng Junior", name: "Sig Stefan Klos" },
+            { role: "Troop Net Eng Junior", name: "Sig Neil McCann" }
+        ];
+
+        const teamGrid = document.getElementById('teamGrid');
+        troop.forEach((member, index) => {
+            const card = document.createElement('article');
+            card.className = 'team-card';
+
+            const figure = document.createElement('figure');
+            const img = document.createElement('img');
+            img.src = shuffledHeadshots[(index + dutyRoster.length) % shuffledHeadshots.length];
+            img.alt = member.name;
+            figure.appendChild(img);
+
+            const role = document.createElement('span');
+            role.className = 'role';
+            role.textContent = member.role;
+
+            const name = document.createElement('h3');
+            name.textContent = member.name;
+
+            card.appendChild(figure);
+            card.appendChild(role);
+            card.appendChild(name);
+            teamGrid.appendChild(card);
+        });
+
+        const dutyTechImage = document.getElementById('dutyTechImage');
+        const dutyTechName = document.getElementById('dutyTechName');
+        const dutyTechRole = document.getElementById('dutyTechRole');
+        const dutyTechDates = document.getElementById('dutyTechDates');
+        const dutyTechStatus = document.getElementById('dutyTechStatus');
+        const prevBtn = document.getElementById('dutyPrev');
+        const nextBtn = document.getElementById('dutyNext');
+
+        let rosterIndex = dutyRoster.findIndex(tech => tech.status === 'Current Duty');
+        if (rosterIndex === -1) {
+            rosterIndex = 0;
+        }
+
+        function renderDutyTech() {
+            const tech = dutyRoster[rosterIndex];
+            dutyTechName.textContent = tech.name;
+            dutyTechRole.textContent = tech.role;
+            dutyTechDates.textContent = tech.dates;
+            dutyTechStatus.textContent = tech.status;
+            dutyTechImage.src = tech.image;
+            dutyTechImage.alt = `${tech.name} – ${tech.role}`;
+        }
+
+        prevBtn.addEventListener('click', () => {
+            rosterIndex = (rosterIndex - 1 + dutyRoster.length) % dutyRoster.length;
+            renderDutyTech();
+        });
+
+        nextBtn.addEventListener('click', () => {
+            rosterIndex = (rosterIndex + 1) % dutyRoster.length;
+            renderDutyTech();
+        });
+
+        renderDutyTech();
+
+        document.getElementById('year').textContent = new Date().getFullYear();
+    </script>
+</body>
+</html>
